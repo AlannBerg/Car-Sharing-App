@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Setter
 @Getter
 public class Car {
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 

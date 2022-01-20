@@ -1,7 +1,8 @@
 package com.example.CarRentalAplication.Services;
 
 import com.example.CarRentalAplication.contract.CarDTO;
-import com.example.CarRentalAplication.Repositories.CarRepoEntityManager;
+import com.example.CarRentalAplication.Repositories.CarRepository;
+import com.example.CarRentalAplication.models.Car;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,21 +12,27 @@ import java.util.stream.Collectors;
 @Service
 public class CarService {
 
-    private CarRepoEntityManager carRepoEntityManager;
+    private CarRepository carRepository;
     private LocalizationService localizationService;
 
 
     @Autowired
-    public CarService(CarRepoEntityManager carRepoEntityManager, LocalizationService localizationService) {
-        this.carRepoEntityManager = carRepoEntityManager;
+    public CarService(CarRepository carRepository, LocalizationService localizationService) {
+        this.carRepository = carRepository;
         this.localizationService = localizationService;
     }
 
     public List<CarDTO> getCarsEM(){
-        return carRepoEntityManager.getCars().stream().
-                map(car -> new CarDTO(car.getId(), car.getMake(), car.getModel(), car.getColor(),
+        return carRepository.getCars().stream().
+                map(car -> new CarDTO(car.getMake(), car.getModel(), car.getColor(),
                         car.getYear(), car.getHorsepower(), car.getRentfee(), car.getAvailable(),
                         localizationService.getCityName(car.getCurrentLocation())))
                 .collect(Collectors.toList());
+    }
+
+    public CarDTO findByID(Integer carId) {
+        Car car = carRepository.findByID(carId);
+        return new CarDTO(car.getMake(), car.getModel(), car.getColor(), car.getYear(), car.getHorsepower(),
+                            car.getRentfee(), car.getAvailable(), localizationService.getCityName(car.getCurrentLocation()));
     }
 }

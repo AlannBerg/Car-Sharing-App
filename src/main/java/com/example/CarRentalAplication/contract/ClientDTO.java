@@ -1,67 +1,36 @@
 package com.example.CarRentalAplication.contract;
 
+import com.example.CarRentalAplication.models.Client;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.sql.Date;
+
+@Setter
+@Getter
+@AllArgsConstructor
 public class ClientDTO {
-    private Integer id;
+
     private String name;
     private String lastName;
-    private java.sql.Timestamp birthday;
+    private String birthday;
     private String email;
-    private String login;
-    private String password;
+    private String phoneNumber;
 
-    public Integer getId() {
-        return this.id;
+
+    public Client dtoTOentity(){
+        Client client = new Client();
+        client.setName(this.name);
+        client.setLastName(this.lastName);
+        client.setBirthday(stringToDate(this.birthday));
+        client.setEmail(this.email);
+        client.setPhoneNumber(this.phoneNumber);
+        return client;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLastName() {
-        return this.lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public java.sql.Timestamp getBirthday() {
-        return this.birthday;
-    }
-
-    public void setBirthday(java.sql.Timestamp birthday) {
-        this.birthday = birthday;
-    }
-
-    public String getEmail() {
-        return this.email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getLogin() {
-        return this.login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getPassword() {
-        return this.password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    private Date stringToDate(String birthday) {
+        return Date.valueOf(birthday);
     }
 }
+

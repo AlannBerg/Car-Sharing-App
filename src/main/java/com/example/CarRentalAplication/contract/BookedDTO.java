@@ -1,49 +1,44 @@
 package com.example.CarRentalAplication.contract;
 
+import com.example.CarRentalAplication.models.Booked;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.sql.Date;
+
+@Setter
+@Getter
 public class BookedDTO {
-    private Integer id;
+
     private Integer clientId;
     private Integer carId;
-    private java.sql.Date rentalDate;
-    private Integer rentalDays;
+    private String rentalStartingDate;
+    private String  rentalEndDate;
+    private Integer milage;
+    private Float charge;
 
-    public Integer getId() {
-        return this.id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getClientId() {
-        return this.clientId;
-    }
-
-    public void setClientId(Integer clientId) {
+    public BookedDTO(Integer clientId, Integer carId, String rentalStartingDate, String rentalEndDate) {
         this.clientId = clientId;
-    }
-
-    public Integer getCarId() {
-        return this.carId;
-    }
-
-    public void setCarId(Integer carId) {
         this.carId = carId;
+        this.rentalStartingDate = rentalStartingDate;
+        this.rentalEndDate = rentalEndDate;
     }
 
-    public java.sql.Date getRentalDate() {
-        return this.rentalDate;
-    }
+    public BookedDTO(Integer clientId, Integer carId, String rentalStartingDate, String rentalEndDate, Integer milage) {
+        this.clientId = clientId;
+        this.carId = carId;
+        this.rentalStartingDate = rentalStartingDate;
+        this.rentalEndDate = rentalEndDate;
+        this.milage = milage;
 
-    public void setRentalDate(java.sql.Date rentalDate) {
-        this.rentalDate = rentalDate;
     }
-
-    public Integer getRentalDays() {
-        return this.rentalDays;
-    }
-
-    public void setRentalDays(Integer rentalDays) {
-        this.rentalDays = rentalDays;
+    public Booked dtoToEntity(){
+        Booked booked = new Booked();
+        booked.setClientId(this.clientId);
+        booked.setCarId(this.carId);
+        booked.setRentalStartingDate(Date.valueOf(this.getRentalStartingDate()));
+        booked.setRentalEndDate(Date.valueOf(this.getRentalEndDate()));
+        return booked;
     }
 }

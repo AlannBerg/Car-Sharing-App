@@ -1,11 +1,13 @@
 package com.example.CarRentalAplication.models;
 
+import net.bytebuddy.dynamic.loading.InjectionClassLoader;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "client")
 public class Client {
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
@@ -16,16 +18,13 @@ public class Client {
     private String lastName;
 
     @Column(name = "birthday")
-    private java.sql.Timestamp birthday;
+    private java.sql.Date birthday;
 
     @Column(name = "email")
     private String email;
 
-    @Column(name = "login")
-    private String login;
-
-    @Column(name = "password")
-    private String password;
+    @Column(name = "phone_number")
+    private String phoneNumber;
 
     public Integer getId() {
         return this.id;
@@ -51,11 +50,11 @@ public class Client {
         this.lastName = lastName;
     }
 
-    public java.sql.Timestamp getBirthday() {
+    public java.sql.Date getBirthday() {
         return this.birthday;
     }
 
-    public void setBirthday(java.sql.Timestamp birthday) {
+    public void setBirthday(java.sql.Date birthday) {
         this.birthday = birthday;
     }
 
@@ -67,19 +66,11 @@ public class Client {
         this.email = email;
     }
 
-    public String getLogin() {
-        return this.login;
+    public String getPhoneNumber() {
+        return this.phoneNumber;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getPassword() {
-        return this.password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

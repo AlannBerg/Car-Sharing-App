@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "booked")
 public class Booked {
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
@@ -15,11 +15,17 @@ public class Booked {
     @Column(name = "car_id")
     private Integer carId;
 
-    @Column(name = "rental_date")
-    private java.sql.Date rentalDate;
+    @Column(name = "rental_starting_date")
+    private java.sql.Date rentalStartingDate;
 
-    @Column(name = "rental_days")
-    private Integer rentalDays;
+    @Column(name = "rental_end_date")
+    private java.sql.Date rentalEndDate;
+
+    @Column(name = "milage")
+    private Integer milage;
+
+    @Column(name = "charge")
+    private Float charge;
 
     public Integer getId() {
         return this.id;
@@ -45,19 +51,35 @@ public class Booked {
         this.carId = carId;
     }
 
-    public java.sql.Date getRentalDate() {
-        return this.rentalDate;
+    public java.sql.Date getRentalStartingDate() {
+        return this.rentalStartingDate;
     }
 
-    public void setRentalDate(java.sql.Date rentalDate) {
-        this.rentalDate = rentalDate;
+    public void setRentalStartingDate(java.sql.Date rentalStartingDate) {
+        this.rentalStartingDate = rentalStartingDate;
     }
 
-    public Integer getRentalDays() {
-        return this.rentalDays;
+    public java.sql.Date getRentalEndDate() {
+        return this.rentalEndDate;
     }
 
-    public void setRentalDays(Integer rentalDays) {
-        this.rentalDays = rentalDays;
+    public void setRentalEndDate(java.sql.Date rentalEndDate) {
+        this.rentalEndDate = rentalEndDate;
+    }
+
+    public Integer getMilage() {
+        return this.milage;
+    }
+
+    public void setMilage(Integer milage) {
+        this.milage = milage;
+    }
+
+    public Float getCharge() {
+        return this.charge;
+    }
+
+    public void setCharge(Float charge) {
+        this.charge = charge;
     }
 }

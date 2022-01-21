@@ -15,16 +15,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LocalizationRepository {
     private final EntityManager entityManager;
-    private String selectAll = "SELECT l FROM Localization l";
 
     public Localization findCityByID(Integer id){
         return entityManager.createQuery(
-                selectAll + " WHERE l.id =" + id.toString(),
+                "SELECT l FROM Localization l WHERE l.id =" + id.toString(),
                 Localization.class).getResultList().get(0);
     }
 
     public List<Localization> findAll(){
-        return entityManager.createQuery(selectAll,Localization.class).getResultList();
+        return entityManager.createQuery(
+                "SELECT l FROM Localization l",Localization.class)
+                .getResultList();
     }
 
 }

@@ -13,12 +13,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ClientRepository {
     private final EntityManager entityManager;
-    private String select = "SELECT client FROM  Client client ";
 
 
     public Client findByID(Integer id) {
         return entityManager.createQuery(
-                 select +"WHERE client.id = " + id.toString(),
+                "SELECT client FROM  Client client WHERE client.id = " + id.toString(),
                 Client.class).getResultList().get(0);
     }
 
@@ -28,7 +27,7 @@ public class ClientRepository {
 
     public List<Client> findByEmail(String email) {
         return entityManager.createQuery(
-                select + "where client.email = " + email,
+                "SELECT client FROM  Client client where client.email = " + email,
                 Client.class).getResultList();
     }
 }

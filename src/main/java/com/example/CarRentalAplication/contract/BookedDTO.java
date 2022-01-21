@@ -25,12 +25,13 @@ public class BookedDTO {
         this.rentalEndDate = rentalEndDate;
     }
 
-    public BookedDTO(Integer clientId, Integer carId, String rentalStartingDate, String rentalEndDate, Integer milage) {
+    public BookedDTO(Integer clientId, Integer carId, String rentalStartingDate, String rentalEndDate, Integer milage, Float charge) {
         this.clientId = clientId;
         this.carId = carId;
         this.rentalStartingDate = rentalStartingDate;
         this.rentalEndDate = rentalEndDate;
         this.milage = milage;
+        this.charge = charge;
 
     }
     public Booked dtoToEntity(){

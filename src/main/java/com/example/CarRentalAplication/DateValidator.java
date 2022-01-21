@@ -20,13 +20,10 @@ public class DateValidator {
     public Boolean validateDate(Date requestedSTART, Date requestedEND) {
         Boolean validationResult = false;
 
-        if( validateDate(requestedSTART)){
+        if( validateDate(requestedSTART) || validateDate(requestedEND)){
             validationResult = true;
         }
 
-        if( validateDate(requestedEND)){
-            validationResult = true;
-        }
 
         // in case requested term is longer than all scheduled terms
         // some other term         3   4   5
@@ -56,15 +53,17 @@ public class DateValidator {
 
             // if day of new rental term is at the same day as others
             // return false
-            if(requestedDate.compareTo(startTerm) == 0){
+            if(requestedDate.compareTo(startTerm) == 0 || requestedDate.compareTo(endTerm) == 0){
                 validationResult = true;
                 break;
             }
 
-            if(requestedDate.compareTo(endTerm) == 0){
-                validationResult = true;
-                break;
-            }
+//            if(requestedDate.compareTo(endTerm) == 0){
+//                validationResult = true;
+//                break;
+//            }
+
+
             // if day of new rental term is between some other term
             // return false
             if(requestedDate.compareTo(startTerm) > 0 && requestedDate.compareTo(endTerm) < 0){

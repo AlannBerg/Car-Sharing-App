@@ -17,6 +17,7 @@ public class BookingRepository {
     private final EntityManager entityManager;
 
 
+
     public List<Booked> findAllActiveBookingsWithThisCar(Integer carId) {
         return entityManager.createQuery(
                 "SELECT booked FROM Booked booked where booked.carId = "+
@@ -29,5 +30,23 @@ public class BookingRepository {
 
     public void save(Booked bookingRequest) {
         entityManager.persist(bookingRequest);
+    }
+
+    public List<Booked> findActiveBookingByID(Integer bookedID) {
+        return entityManager.createQuery(
+                "SELECT booked FROM Booked booked where booked.id = " + bookedID +
+                " and  booked.charge is null ",
+                Booked.class).getResultList();
+    }
+
+    public void update(Booked booked) {
+        entityManager.merge(booked);
+    }
+
+    public List<Booked> findAllActiveBookingsForThisClient(Integer clientID) {
+        return entityManager.createQuery(
+                "SELECT booked FROM Booked booked where booked.clientId = " + clientID +
+                        " and booked.charge is null ", Booked.class)
+                        .getResultList();
     }
 }

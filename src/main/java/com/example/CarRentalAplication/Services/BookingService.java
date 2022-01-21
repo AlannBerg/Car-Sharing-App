@@ -1,13 +1,13 @@
 package com.example.CarRentalAplication.Services;
 
 import com.example.CarRentalAplication.DateValidator;
-import com.example.CarRentalAplication.Exceptions.CarNotAvailableException;
-import com.example.CarRentalAplication.Exceptions.RentalDateForThisCarIsAlreadyTaken;
-import com.example.CarRentalAplication.Exceptions.RequestedTermIsNotCorrect;
+import com.example.CarRentalAplication.Exceptions.*;
 import com.example.CarRentalAplication.Repositories.BookingRepository;
 import com.example.CarRentalAplication.contract.BookedDTO;
 import com.example.CarRentalAplication.contract.CarDTO;
 import com.example.CarRentalAplication.contract.ClientDTO;
+import com.example.CarRentalAplication.models.Booked;
+import com.example.CarRentalAplication.models.Car;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BookingService {
@@ -33,9 +34,16 @@ public class BookingService {
     @SneakyThrows
     public BookedDTO bookACar(BookedDTO bookingRequest) {
 
-        // finding car and client from request
-
+        // checks if such car exist
         CarDTO carDTO = carService.findByID(bookingRequest.getCarId());
+        if(carDTO == null){
+            throw new InvalidCarID();
+        }
+        // checks if such client exist
+        ClientDTO clientDTO = clientService.getByID(bookingRequest.getClientId());
+        if(clientDTO == null){
+            throw new InvalidClientID();
+        }
 
         // searching for rents with  specyfic car which are not over
         List<BookedDTO> bookingHistory = bookingRepository.findAllActiveBookingsWithThisCar(bookingRequest.getCarId())
@@ -107,6 +115,35 @@ public class BookingService {
             requestTermIsNotCorrect = true;
         }
         return requestTermIsNotCorrect;
+    }
+
+    @SneakyThrows
+    public Booked findActiveBookingByID(Integer bookedID) {
+        if(bookingRepository.findActiveBookingByID(bookedID).isEmpty()){
+            throw new InvalidBookingID();
+        }
+        return bookingRepository.findActiveBookingByID(bookedID).get(0);
+    }
+
+    @SneakyThrows
+    public void changeCarLocalization(Booked booked, Integer returningCityID) {
+        // if such car does not exist
+        Car car = carService.findEntityByID(booked.getCarId());
+        if(car == null){
+            throw new InvalidCarID();
+        }
+        car.setCurrentLocation(returningCityID);
+        carService.updateCar(car);
+    }
+
+    public void closeRentalandSave(Booked booked) {
+        bookingRepository.update(booked);
+    }
+
+    public List<BookedDTO> findActiveBookingsForClientByClientID(Integer clientID) {
+        return bookingRepository.findAllActiveBookingsForThisClient(clientID).stream()
+                .map(booked -> new BookedDTO(booked.getClientId(), booked.getCarId(), booked.getRentalStartingDate().toString(),
+                        booked.getRentalEndDate().toString(), booked.getMilage(), booked.getCharge())).collect(Collectors.toList());
     }
 }
 

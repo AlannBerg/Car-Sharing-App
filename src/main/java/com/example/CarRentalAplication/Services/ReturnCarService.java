@@ -1,18 +1,13 @@
 package com.example.CarRentalAplication.Services;
 
-import com.example.CarRentalAplication.Exceptions.InvalidBookingID;
-import com.example.CarRentalAplication.Repositories.BookingRepository;
 import com.example.CarRentalAplication.contract.BookedDTO;
-import com.example.CarRentalAplication.contract.CarDTO;
 import com.example.CarRentalAplication.models.Booked;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.Temporal;
 
 @Service
 public class ReturnCarService {
@@ -74,7 +69,6 @@ public class ReturnCarService {
     private int getRentalLenght(Booked booked) {
         LocalDate rentalStarting = LocalDate.parse(booked.getRentalStartingDate().toString());
         LocalDate rentalEnding = LocalDate.parse(booked.getRentalEndDate().toString());
-
 
         return (int) ChronoUnit.DAYS.between(rentalStarting,rentalEnding);
     }

@@ -1,13 +1,12 @@
 package com.example.CarRentalAplication.Services;
 
+import com.example.CarRentalAplication.Controlers.Exceptions.InvalidClientID;
 import com.example.CarRentalAplication.Repositories.ClientRepository;
 import com.example.CarRentalAplication.contract.ClientDTO;
 import com.example.CarRentalAplication.models.Client;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.sql.Date;
-import java.util.List;
 
 @Service
 public class ClientService {
@@ -18,10 +17,15 @@ public class ClientService {
         this.clientRepository = clientRepository;
     }
 
-
+    @SneakyThrows
     public ClientDTO getByID(Integer id) {
 
-        Client client = clientRepository.findByID(id);
+        Client client;
+        if(clientRepository.findByID(id).isEmpty()){
+            throw new InvalidClientID();
+        }else {
+            client = clientRepository.findByID(id).get(0);
+        }
 
         return new ClientDTO(
                 client.getName(),

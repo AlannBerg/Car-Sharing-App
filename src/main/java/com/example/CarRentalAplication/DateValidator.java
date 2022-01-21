@@ -20,6 +20,8 @@ public class DateValidator {
     public Boolean validateDate(Date requestedSTART, Date requestedEND) {
         Boolean validationResult = false;
 
+
+        // checks if start and end of rental is between some other term
         if( validateDate(requestedSTART) || validateDate(requestedEND)){
             validationResult = true;
         }
@@ -57,12 +59,6 @@ public class DateValidator {
                 validationResult = true;
                 break;
             }
-
-//            if(requestedDate.compareTo(endTerm) == 0){
-//                validationResult = true;
-//                break;
-//            }
-
 
             // if day of new rental term is between some other term
             // return false

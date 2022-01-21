@@ -15,10 +15,10 @@ public class ClientRepository {
     private final EntityManager entityManager;
 
 
-    public Client findByID(Integer id) {
+    public List<Client> findByID(Integer id) {
         return entityManager.createQuery(
                 "SELECT client FROM  Client client WHERE client.id = " + id.toString(),
-                Client.class).getResultList().get(0);
+                Client.class).getResultList();
     }
 
     public void saveClient(Client client){

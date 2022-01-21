@@ -1,6 +1,5 @@
 package com.example.CarRentalAplication.Repositories;
 
-import com.example.CarRentalAplication.contract.BookedDTO;
 import com.example.CarRentalAplication.models.Booked;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -15,7 +14,6 @@ import java.util.List;
 public class BookingRepository {
 
     private final EntityManager entityManager;
-
 
 
     public List<Booked> findAllActiveBookingsWithThisCar(Integer carId) {

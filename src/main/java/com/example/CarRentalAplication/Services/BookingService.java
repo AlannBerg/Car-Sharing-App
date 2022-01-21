@@ -1,7 +1,7 @@
 package com.example.CarRentalAplication.Services;
 
+import com.example.CarRentalAplication.Controlers.Exceptions.*;
 import com.example.CarRentalAplication.DateValidator;
-import com.example.CarRentalAplication.Exceptions.*;
 import com.example.CarRentalAplication.Repositories.BookingRepository;
 import com.example.CarRentalAplication.contract.BookedDTO;
 import com.example.CarRentalAplication.contract.CarDTO;
@@ -45,7 +45,7 @@ public class BookingService {
             throw new InvalidClientID();
         }
 
-        // searching for rents with  specyfic car which are not over
+        // searching for active rentals with  specyfic car
         List<BookedDTO> bookingHistory = bookingRepository.findAllActiveBookingsWithThisCar(bookingRequest.getCarId())
                 .stream().map(
                         booked -> new BookedDTO(
@@ -69,8 +69,6 @@ public class BookingService {
                 throw new RentalDateForThisCarIsAlreadyTaken();
             }
         }
-
-
 
         bookingRepository.save(bookingRequest.dtoToEntity());
         return bookingRequest;
@@ -140,7 +138,14 @@ public class BookingService {
         bookingRepository.update(booked);
     }
 
+    @SneakyThrows
     public List<BookedDTO> findActiveBookingsForClientByClientID(Integer clientID) {
+
+        ClientDTO clientDTO = clientService.getByID(clientID);
+        if(clientDTO == null){
+            throw new InvalidClientID();
+        }
+
         return bookingRepository.findAllActiveBookingsForThisClient(clientID).stream()
                 .map(booked -> new BookedDTO(booked.getClientId(), booked.getCarId(), booked.getRentalStartingDate().toString(),
                         booked.getRentalEndDate().toString(), booked.getMilage(), booked.getCharge())).collect(Collectors.toList());

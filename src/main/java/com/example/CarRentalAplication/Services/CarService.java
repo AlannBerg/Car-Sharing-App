@@ -1,11 +1,8 @@
 package com.example.CarRentalAplication.Services;
 
-import com.example.CarRentalAplication.Exceptions.InvalidLocalizationID;
 import com.example.CarRentalAplication.contract.CarDTO;
 import com.example.CarRentalAplication.Repositories.CarRepository;
 import com.example.CarRentalAplication.models.Car;
-import com.example.CarRentalAplication.models.Localization;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

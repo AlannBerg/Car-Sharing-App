@@ -8,9 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.sql.Date;
-import java.util.Calendar;
 import java.util.List;
 
 @Controller
@@ -26,8 +23,7 @@ public class BookingControler {
     }
 
 
-
-    @GetMapping("/getbookings")
+    @PostMapping("/getbookings")
     public ResponseEntity<List<BookedDTO>> showAllActiveBookingsForClient(@RequestParam Integer clientID){
         return new ResponseEntity<>(bookingService.findActiveBookingsForClientByClientID(clientID),HttpStatus.OK);
     }
@@ -41,7 +37,6 @@ public class BookingControler {
                                               ){
 
         BookedDTO bookingRequest = new BookedDTO(clientId,carId,rentalStartingDate,rentalEndDate);
-
 
         return new ResponseEntity<>( bookingService.bookACar(bookingRequest),HttpStatus.OK);
     }

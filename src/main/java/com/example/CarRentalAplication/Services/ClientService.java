@@ -1,6 +1,6 @@
 package com.example.CarRentalAplication.Services;
 
-import com.example.CarRentalAplication.Controlers.Exceptions.InvalidClientID;
+import com.example.CarRentalAplication.Exceptions.InvalidClientID;
 import com.example.CarRentalAplication.Repositories.ClientRepository;
 import com.example.CarRentalAplication.contract.ClientDTO;
 import com.example.CarRentalAplication.models.Client;

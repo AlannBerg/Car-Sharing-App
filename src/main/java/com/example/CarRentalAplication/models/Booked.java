@@ -1,6 +1,9 @@
 package com.example.CarRentalAplication.models;
 
+import lombok.RequiredArgsConstructor;
+
 import javax.persistence.*;
+import java.sql.Date;
 
 @Entity
 @Table(name = "booked")
@@ -26,6 +29,18 @@ public class Booked {
 
     @Column(name = "charge")
     private Float charge;
+
+    public Booked(Integer id, Integer clientId, Integer carId, Date rentalStartingDate, Date rentalEndDate) {
+        this.id = id;
+        this.clientId = clientId;
+        this.carId = carId;
+        this.rentalStartingDate = rentalStartingDate;
+        this.rentalEndDate = rentalEndDate;
+    }
+
+    public Booked() {
+
+    }
 
     public Integer getId() {
         return this.id;

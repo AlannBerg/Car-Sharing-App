@@ -1,6 +1,8 @@
 package com.example.CarRentalAplication.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -9,6 +11,8 @@ import javax.persistence.*;
 @Table(name = "car")
 @Setter
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Car {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -37,6 +41,5 @@ public class Car {
 
     @Column(name = "current_location")
     private Integer currentLocation;
-
 
 }

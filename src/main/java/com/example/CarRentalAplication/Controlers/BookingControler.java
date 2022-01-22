@@ -13,8 +13,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/booking")
 public class BookingControler {
-    private BookingService bookingService;
-    private ReturnCarService returnCarService;
+    private final BookingService bookingService;
+    private final ReturnCarService returnCarService;
 
     @Autowired
     public BookingControler(BookingService bookingService, ReturnCarService returnCarService) {

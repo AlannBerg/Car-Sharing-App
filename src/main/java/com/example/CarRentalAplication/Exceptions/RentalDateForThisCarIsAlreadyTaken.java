@@ -1,4 +1,4 @@
-package com.example.CarRentalAplication.Controlers.Exceptions;
+package com.example.CarRentalAplication.Exceptions;
 
 public class RentalDateForThisCarIsAlreadyTaken extends Throwable {
 }

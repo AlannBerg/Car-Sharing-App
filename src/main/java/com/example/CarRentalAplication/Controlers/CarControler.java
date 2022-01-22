@@ -18,7 +18,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/cars")
 public class CarControler {
-    private CarService carService;
+    private final CarService carService;
 
     @Autowired
     public CarControler(CarService carService) {

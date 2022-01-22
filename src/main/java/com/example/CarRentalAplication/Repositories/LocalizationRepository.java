@@ -28,4 +28,7 @@ public class LocalizationRepository {
                 .getResultList();
     }
 
+    public void save(Localization localization) {
+        entityManager.persist(localization);
+    }
 }

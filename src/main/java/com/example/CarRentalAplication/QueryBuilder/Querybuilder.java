@@ -16,7 +16,7 @@ public class Querybuilder {
         List<String> querryFinders = new ArrayList<>();
 
         localizationID.ifPresent( integer -> querryFinders.add(" car.currentLocation = " + integer));
-        priceFrom.ifPresent(integer -> querryFinders.add(" car.rentfee >" + integer));
+        priceFrom.ifPresent(integer -> querryFinders.add(" car.rentfee > " + integer));
         priceTo.ifPresent(integer -> querryFinders.add(" car.rentfee < " + integer));
         hpowerFrom.ifPresent(integer -> querryFinders.add(" car.horsepower > " + integer));
         hpowerTo.ifPresent(integer -> querryFinders.add(" car.horsepower < " + integer));

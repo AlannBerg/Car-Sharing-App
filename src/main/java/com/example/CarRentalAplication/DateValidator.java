@@ -7,10 +7,9 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-@Setter
-@Getter
+
 public class DateValidator {
-    private HashMap<Date,Date> startEndMap;
+    private final HashMap<Date,Date> startEndMap;
 
 
     public DateValidator(HashMap<Date, Date> startEndMap) {

@@ -1,9 +1,12 @@
 package com.example.CarRentalAplication.models;
 
-import net.bytebuddy.dynamic.loading.InjectionClassLoader;
+
+
+import lombok.AllArgsConstructor;
 
 import javax.persistence.*;
 
+@AllArgsConstructor
 @Entity
 @Table(name = "client")
 public class Client {
@@ -25,6 +28,10 @@ public class Client {
 
     @Column(name = "phone_number")
     private String phoneNumber;
+
+    public Client() {
+
+    }
 
     public Integer getId() {
         return this.id;

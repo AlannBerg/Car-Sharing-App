@@ -1,7 +1,7 @@
 package com.example.CarRentalAplication.Services;
 
-import com.example.CarRentalAplication.Controlers.Exceptions.*;
 import com.example.CarRentalAplication.DateValidator;
+import com.example.CarRentalAplication.Exceptions.*;
 import com.example.CarRentalAplication.Repositories.BookingRepository;
 import com.example.CarRentalAplication.contract.BookedDTO;
 import com.example.CarRentalAplication.contract.CarDTO;
@@ -34,16 +34,11 @@ public class BookingService {
     @SneakyThrows
     public BookedDTO bookACar(BookedDTO bookingRequest) {
 
-        // checks if such car exist
         CarDTO carDTO = carService.findByID(bookingRequest.getCarId());
-        if(carDTO == null){
-            throw new InvalidCarID();
-        }
+
         // checks if such client exist
         ClientDTO clientDTO = clientService.getByID(bookingRequest.getClientId());
-        if(clientDTO == null){
-            throw new InvalidClientID();
-        }
+
 
         // searching for active rentals with  specyfic car
         List<BookedDTO> bookingHistory = bookingRepository.findAllActiveBookingsWithThisCar(bookingRequest.getCarId())
@@ -74,7 +69,7 @@ public class BookingService {
         return bookingRequest;
     }
 
-    private boolean requestedRentDateISTaken(List<BookedDTO> bookingHistory, BookedDTO bookingRequest) {
+    protected boolean requestedRentDateISTaken(List<BookedDTO> bookingHistory, BookedDTO bookingRequest) {
 
         HashMap<Date,Date> beginANDendOFRent = new HashMap<>();
 
@@ -98,7 +93,7 @@ public class BookingService {
         return terminIsTaken;
         }
 
-    private boolean requestedTermIsNotCorrect(BookedDTO bookingRequest) {
+    protected boolean requestedTermIsNotCorrect(BookedDTO bookingRequest) {
         Boolean requestTermIsNotCorrect = false;
 
         Date firstDate = Date.valueOf(bookingRequest.getRentalStartingDate());
@@ -125,11 +120,9 @@ public class BookingService {
 
     @SneakyThrows
     public void changeCarLocalization(Booked booked, Integer returningCityID) {
-        // if such car does not exist
+
         Car car = carService.findEntityByID(booked.getCarId());
-        if(car == null){
-            throw new InvalidCarID();
-        }
+
         car.setCurrentLocation(returningCityID);
         carService.updateCar(car);
     }

@@ -19,8 +19,7 @@ public class LocalizationService {
     }
 
     public String getCityName(Integer currentLocation) {
-        Localization localization = localizationRepository.findCityByID(currentLocation);
-        return localization.getCity();
+        return localizationRepository.findCityByID(currentLocation).getCity();
     }
 
     public List<LocalizationDTO> getLocalizations() {

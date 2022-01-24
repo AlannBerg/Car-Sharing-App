@@ -5,10 +5,11 @@ import com.example.CarRentalAplication.contract.ClientDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 
-@RestController
+@Controller
 @RequestMapping("/client")
 public class ClientControler {
     private final ClientService clientService;
@@ -18,7 +19,7 @@ public class ClientControler {
         this.clientService = clientService;
     }
 
-    @PostMapping ("/get")
+    @GetMapping ("/get")
     public ResponseEntity<ClientDTO> getClientById(@RequestParam(required = false) Integer id) {
 
         return new ResponseEntity<>(clientService.getByID(id), HttpStatus.OK);

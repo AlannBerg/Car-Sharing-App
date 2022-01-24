@@ -1,6 +1,7 @@
 package com.example.CarRentalAplication.QueryBuilder;
 
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;

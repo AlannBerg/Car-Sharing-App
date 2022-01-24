@@ -1,6 +1,5 @@
 package com.example.CarRentalAplication.contract;
 
-import com.example.CarRentalAplication.models.Car;
 import lombok.*;
 
 @Setter
@@ -16,7 +15,7 @@ public class CarDTO {
     private String currentLocation;
 
 
-    public CarDTO(String make, String model, String color, Integer year, Integer horsepower, Integer rentfee, Byte available, String currentLocation) {
+    public CarDTO(String make, String model, String color, Integer year, Integer horsepower, Integer rentfee, Integer available, String currentLocation) {
         this.make = make;
         this.model = model;
         this.color = color;
@@ -28,7 +27,7 @@ public class CarDTO {
     }
 
 
-    private Boolean isAailable(Byte available) {
+    private Boolean isAailable(Integer available) {
         return available == 1;
     }
 }

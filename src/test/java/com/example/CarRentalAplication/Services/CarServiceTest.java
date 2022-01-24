@@ -2,8 +2,6 @@ package com.example.CarRentalAplication.Services;
 
 import com.example.CarRentalAplication.Exceptions.InvalidCarID;
 import com.example.CarRentalAplication.Repositories.CarRepository;
-import com.example.CarRentalAplication.contract.CarDTO;
-import com.example.CarRentalAplication.contract.ClientDTO;
 import com.example.CarRentalAplication.models.Car;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +10,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
@@ -35,7 +32,7 @@ class CarServiceTest {
             2022,
             100,
             500,
-            (byte) 1,
+             1,
             1
     );
 

@@ -23,7 +23,7 @@ public class BookingControler {
     }
 
 
-    @PostMapping("/getbookings")
+    @GetMapping("/getbookings")
     public ResponseEntity<List<BookedDTO>> showAllActiveBookingsForClient(@RequestParam Integer clientID){
         return new ResponseEntity<>(bookingService.findActiveBookingsForClientByClientID(clientID),HttpStatus.OK);
     }
@@ -42,7 +42,7 @@ public class BookingControler {
     }
 
     @PostMapping("/return")
-    private ResponseEntity<BookedDTO> returnACar(@RequestParam Integer bookedID,
+    public ResponseEntity<BookedDTO> returnACar(@RequestParam Integer bookedID,
                                                  @RequestParam Integer milage,
                                                  @RequestParam Integer returningCityID){
 

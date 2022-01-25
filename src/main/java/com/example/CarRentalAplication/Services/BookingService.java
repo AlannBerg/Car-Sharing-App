@@ -57,7 +57,7 @@ public class BookingService {
                 throw new RequestedTermIsNotCorrect();
             }
             // if car is not available for some reason
-            if(carDTO.getAvailable() == false){
+            if(carDTO.getAvailable() == 0){
                 throw new CarNotAvailableException();
             } // rest of  validation
             if(requestedRentDateISTaken(bookingHistory, bookingRequest)){

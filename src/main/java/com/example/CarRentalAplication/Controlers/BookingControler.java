@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/booking")
 public class BookingControler {
     private final BookingService bookingService;

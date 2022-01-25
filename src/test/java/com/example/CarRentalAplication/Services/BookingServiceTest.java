@@ -61,7 +61,7 @@ class BookingServiceTest {
             2022,
             100,
             100,
-             1,
+            (byte)1,
             "1"
     );
 
@@ -95,7 +95,7 @@ class BookingServiceTest {
                 2022,
                 100,
                 100,
-                 0,           // not available
+                 (byte)0,           // not available
                 "1"
         );
         when(carService.findByID(bookedDTO.getCarId())).thenReturn(notAvailablecarDTo);
@@ -183,7 +183,7 @@ class BookingServiceTest {
                 2022,
                 100,
                 100,
-                 1,
+                (byte)1,
                 1
         );
         Integer returningCityID = 1;

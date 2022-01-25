@@ -33,4 +33,14 @@ public class CarRepository {
     public List<Car> getCarsUsingQuery(String query) {
         return entityManager.createQuery(query,Car.class).getResultList();
     }
+
+    public void addCar(Car car) {
+        entityManager.persist(car);
+    }
+
+    public void delete(Car car) {
+
+        entityManager.remove(car);
+
+    }
 }

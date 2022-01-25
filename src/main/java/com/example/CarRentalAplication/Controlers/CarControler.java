@@ -6,15 +6,13 @@ import com.example.CarRentalAplication.Services.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Optional;
 
 
-@Controller
+@RestController
 @RequestMapping("/cars")
 public class CarControler {
     private final CarService carService;
@@ -36,5 +34,17 @@ public class CarControler {
         return new ResponseEntity<>(carService.getCars(query), HttpStatus.OK);
     }
 
+    @PostMapping("/add")
+    public ResponseEntity<CarDTO> addCar(@RequestBody CarDTO carDTO){
+        return new ResponseEntity<>(carService.addCar(carDTO),HttpStatus.OK);
+
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteCar(@RequestParam Integer carID){
+
+        return new ResponseEntity<>(carService.delete(carID),HttpStatus.OK);
+
+    }
 
 }

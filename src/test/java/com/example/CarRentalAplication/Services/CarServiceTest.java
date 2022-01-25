@@ -32,7 +32,7 @@ class CarServiceTest {
             2022,
             100,
             500,
-             1,
+            (byte)1,
             1
     );
 

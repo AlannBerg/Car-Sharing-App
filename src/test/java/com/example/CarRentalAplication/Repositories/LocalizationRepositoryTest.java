@@ -61,6 +61,7 @@ class LocalizationRepositoryTest {
         List<Localization> returned = localizationRepository.findAll();
 
         assertEquals(2, returned.size());
+
     }
 
 }

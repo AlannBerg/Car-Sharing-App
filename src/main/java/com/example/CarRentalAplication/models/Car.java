@@ -28,7 +28,7 @@ public class Car {
     private Integer rentfee;
 
     @Column(name = "available")
-    private Integer available;
+    private Byte available;
 
     @Column(name = "current_location")
     private Integer currentLocation;
@@ -36,7 +36,7 @@ public class Car {
     public Car() {
     }
 
-    public Car(Integer id, String make, String model, String color, Integer year, Integer horsepower, Integer rentfee, Integer available, Integer currentLocation) {
+    public Car(Integer id, String make, String model, String color, Integer year, Integer horsepower, Integer rentfee, Byte available, Integer currentLocation) {
         this.id = id;
         this.make = make;
         this.model = model;
@@ -104,11 +104,11 @@ public class Car {
         this.rentfee = rentfee;
     }
 
-    public Integer getAvailable() {
+    public Byte getAvailable() {
         return this.available;
     }
 
-    public void setAvailable(Integer available) {
+    public void setAvailable(Byte available) {
         this.available = available;
     }
 

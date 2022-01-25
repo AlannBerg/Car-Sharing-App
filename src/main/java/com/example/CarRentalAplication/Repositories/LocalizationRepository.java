@@ -31,4 +31,5 @@ public class LocalizationRepository {
     public void save(Localization localization) {
         entityManager.persist(localization);
     }
+
 }

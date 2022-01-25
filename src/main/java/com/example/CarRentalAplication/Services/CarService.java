@@ -4,6 +4,7 @@ import com.example.CarRentalAplication.Exceptions.InvalidCarID;
 import com.example.CarRentalAplication.contract.CarDTO;
 import com.example.CarRentalAplication.Repositories.CarRepository;
 import com.example.CarRentalAplication.models.Car;
+import com.example.CarRentalAplication.models.Localization;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,5 +60,26 @@ public class CarService {
 
     public void updateCar(Car car) {
         carRepository.updateCar(car);
+    }
+
+    public CarDTO addCar(CarDTO carDTO) {
+
+        carRepository.addCar(carDTO.dtoToEntity());
+        return carDTO;
+    }
+
+    @SneakyThrows
+    public String delete(Integer carID) {
+
+        Car car;
+        try {
+            car = carRepository.findByID(carID);
+        } catch (Exception e) {
+            throw new InvalidCarID();
+        }
+
+        carRepository.delete(car);
+
+        return "Deleted";
     }
 }

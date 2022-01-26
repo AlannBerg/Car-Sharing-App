@@ -30,6 +30,7 @@ public class MyUserDetailService implements UserDetailsService {
             throw new InvalidUserName();
         }
 
+
         return new MyUserDetails(clients.get(0));
     }
 

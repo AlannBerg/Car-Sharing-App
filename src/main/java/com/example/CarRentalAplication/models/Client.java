@@ -35,7 +35,6 @@ public class Client {
     private String phoneNumber;
 
     public Client(String name, String lastName, String email, Date birthday, String  phoneNumber, String password, String role, Byte active) {
-        this.id = id;
         this.name = name;
         this.lastName = lastName;
         this.email = email;

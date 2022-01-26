@@ -27,13 +27,13 @@ public class ClientRepository {
 
     public List<Client> findByEmail(String email) {
         return entityManager.createQuery(
-                "SELECT client FROM Client client where client.email = " + email,
+                "SELECT client FROM Client client where client.email = '" + email + "'",
                 Client.class).getResultList();
     }
 
     public List<Client> findByName(String username) {
         return entityManager.createQuery(
-                "SELECT client FROM Client client where client.name = "+ username,
+                "SELECT client FROM Client client where client.name = '"+ username + "'" ,
                 Client.class)
                 .getResultList();
     }

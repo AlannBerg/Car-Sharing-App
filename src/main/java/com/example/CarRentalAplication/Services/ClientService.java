@@ -70,7 +70,11 @@ public class ClientService {
     private boolean emailExist(String email) {
 
         List<Client> clients = clientRepository.findByEmail(email);
-        return ! clients.isEmpty();
+        if(clients.isEmpty()){
+            return false;
+        }else {
+            return true;
+        }
     }
 
 }

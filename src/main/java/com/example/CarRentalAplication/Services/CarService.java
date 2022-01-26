@@ -63,7 +63,6 @@ public class CarService {
     }
 
     public CarDTO addCar(CarDTO carDTO) {
-
         carRepository.addCar(carDTO.dtoToEntity());
         return carDTO;
     }
@@ -71,13 +70,11 @@ public class CarService {
     @SneakyThrows
     public String delete(Integer carID) {
 
-        Car car;
-        try {
-            car = carRepository.findByID(carID);
-        } catch (Exception e) {
+        Car car = carRepository.findByID(carID);
+
+        if(car == null){
             throw new InvalidCarID();
         }
-
         carRepository.delete(car);
 
         return "Deleted";

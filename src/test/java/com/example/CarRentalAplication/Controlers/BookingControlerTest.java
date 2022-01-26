@@ -1,5 +1,6 @@
 package com.example.CarRentalAplication.Controlers;
 
+import com.example.CarRentalAplication.Security.MyUserDetailService;
 import com.example.CarRentalAplication.Services.BookingService;
 import com.example.CarRentalAplication.Services.ReturnCarService;
 import com.example.CarRentalAplication.contract.BookedDTO;
@@ -33,6 +34,9 @@ class BookingControlerTest {
 
     @MockBean
     private BookingService bookingService;
+
+    @MockBean
+    private MyUserDetailService myUserDetailService;
 
     @MockBean
     private ReturnCarService returnCarService;

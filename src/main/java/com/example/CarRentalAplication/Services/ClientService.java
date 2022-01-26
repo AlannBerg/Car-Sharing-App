@@ -67,7 +67,7 @@ public class ClientService {
         clientRepository.saveClient(client);
     }
 
-    private boolean emailExist(String email) {
+    protected boolean emailExist(String email) {
 
         List<Client> clients = clientRepository.findByEmail(email);
         if(clients.isEmpty()){

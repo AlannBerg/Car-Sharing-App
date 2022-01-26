@@ -1,7 +1,9 @@
 package com.example.CarRentalAplication.Controlers;
 
+import com.example.CarRentalAplication.Security.MyUserDetailService;
 import com.example.CarRentalAplication.Services.ClientService;
 import com.example.CarRentalAplication.contract.ClientDTO;
+import com.example.CarRentalAplication.contract.UnregisteredClientDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -29,6 +31,9 @@ class ClientControlerTest {
     private MockMvc mvc;
 
     @MockBean
+    private MyUserDetailService myUserDetailService;
+
+    @MockBean
     private ClientService clientService;
 
     private ClientDTO clientDTO =new ClientDTO(
@@ -39,13 +44,21 @@ class ClientControlerTest {
             "1",
             "1");
 
+    private UnregisteredClientDTO unregisteredClientDTO = new UnregisteredClientDTO(
+            "1",
+            "1",
+            "1",
+            "1",
+            "1",
+            "1");
+
     @Test
     void addClienttestshouldAddClient() throws Exception {
-        String uri = "/client/add";
+        String uri = "/client/register";
 
 
         RequestBuilder request = MockMvcRequestBuilders.post(uri)
-                .content(asJsonString(clientDTO))
+                .content(asJsonString(unregisteredClientDTO))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON_VALUE);
         mvc.perform(request).andExpect(status().isOk());
@@ -53,7 +66,7 @@ class ClientControlerTest {
 
         ArgumentCaptor<ClientDTO> argumentCaptor = ArgumentCaptor.forClass(ClientDTO.class);
 
-        verify(clientService).saveClient(argumentCaptor.capture());
+        verify(clientService).registerNewClient(argumentCaptor.capture());
         assertEquals(argumentCaptor.getValue().getName(), clientDTO.getName());
         assertEquals(argumentCaptor.getValue().getBirthday(), clientDTO.getBirthday());
         assertEquals(argumentCaptor.getValue().getEmail(), clientDTO.getEmail());
@@ -77,7 +90,7 @@ class ClientControlerTest {
                 .andReturn().getResponse().getContentAsString();
 
 
-        assertEquals("{\"name\":\"1\",\"lastName\":\"1\",\"birthday\":\"1\",\"email\":\"1\",\"phoneNumber\":\"1\"}", result);
+        assertEquals("{\"name\":\"1\",\"lastName\":\"1\",\"birthday\":\"1\",\"email\":\"1\",\"phoneNumber\":\"1\",\"password\":\"1\",\"role\":null,\"active\":null}", result);
 
     }
 

@@ -1,5 +1,6 @@
 package com.example.CarRentalAplication.Controlers;
 
+import com.example.CarRentalAplication.Security.MyUserDetailService;
 import com.example.CarRentalAplication.Services.LocalizationService;
 import com.example.CarRentalAplication.contract.LocalizationDTO;
 import com.example.CarRentalAplication.models.Localization;
@@ -29,6 +30,8 @@ class LocalizationControlerTest{
     @Autowired
     private MockMvc mvc;
 
+    @MockBean
+    private MyUserDetailService myUserDetailService;
     @MockBean
     LocalizationService localizationService;
 

@@ -1,33 +1,58 @@
 package com.example.CarRentalAplication.Security;
 
+import com.example.CarRentalAplication.models.Clientsecurity;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
+
+import java.util.stream.Collectors;
 
 public class MyUserDetails implements UserDetails {
 
-
     private  String userName;
+    private String password;
+    private boolean active;
+    private List<GrantedAuthority> authorityList;
 
-    public MyUserDetails(String userName){
-        this.userName = userName;
+
+
+
+    public MyUserDetails(Clientsecurity clientsecurity){
+        this.userName = clientsecurity.getUsername();
+        this.password = clientsecurity.getPassword();
+        this.active = getActive(clientsecurity);
+        this.authorityList = Arrays.stream(clientsecurity.getRole().split(","))
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
     }
 
     public MyUserDetails(){
 
     }
 
+    public  Boolean getActive(Clientsecurity clientsecurity){
+        if(clientsecurity.getActive() == 0){
+            return false;
+        }else {
+            return true;
+        }
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+        return authorityList;
     }
 
     @Override
     public String getPassword() {
-        return "pass" ;
+        return this.password;
     }
 
     @Override
@@ -52,6 +77,6 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.active;
     }
 }

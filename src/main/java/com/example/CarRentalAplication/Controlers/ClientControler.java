@@ -1,7 +1,11 @@
 package com.example.CarRentalAplication.Controlers;
 
+import com.example.CarRentalAplication.Security.MyUserDetailService;
 import com.example.CarRentalAplication.Services.ClientService;
+import com.example.CarRentalAplication.Services.TEMPSERVICE;
 import com.example.CarRentalAplication.contract.ClientDTO;
+import com.example.CarRentalAplication.contract.ClientsecurityDTO;
+import com.example.CarRentalAplication.models.Clientsecurity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +19,11 @@ public class ClientControler {
     private final ClientService clientService;
 
     @Autowired
-    public ClientControler(ClientService clientService) {
+    private final TEMPSERVICE tempservice;
+
+    public ClientControler(ClientService clientService, TEMPSERVICE tempservice) {
         this.clientService = clientService;
+        this.tempservice = tempservice;
     }
 
     @GetMapping ("/get")
@@ -30,8 +37,15 @@ public class ClientControler {
 
         clientService.saveClient(clientDTO);
 
-        return new ResponseEntity("Saved",HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.OK);
 
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<String> registerClient(@RequestBody ClientsecurityDTO clientsecurity){
+
+        tempservice.registerNewClient(clientsecurity);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 }

@@ -1,15 +1,12 @@
 package com.example.CarRentalAplication.contract;
 
 import com.example.CarRentalAplication.models.Client;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.sql.Date;
 
 @Setter
 @Getter
-@AllArgsConstructor
 public class ClientDTO {
 
     private String name;
@@ -17,15 +14,42 @@ public class ClientDTO {
     private String birthday;
     private String email;
     private String phoneNumber;
+    private String password;
+    private String role;
+    private Byte active;
 
+    public ClientDTO(String email, String name, String lastName, String birthday, String password, String role, Byte active, String phoneNumber) {
+        this.email = email;
+        this.name = name;
+        this.lastName = lastName;
+        this.birthday = birthday;
+        this.password = password;
+        this.role = role;
+        this.active = active;
+        this.phoneNumber = phoneNumber;
+    }
+
+    public ClientDTO(String name, String lastName, String birthday, String email, String phoneNumber, String  password){
+        this.name = name;
+        this.lastName = lastName;
+        this.birthday = birthday;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+    }
 
     public Client dtoTOentity(){
         Client client = new Client();
+
         client.setName(this.name);
         client.setLastName(this.lastName);
         client.setBirthday(stringToDate(this.birthday));
         client.setEmail(this.email);
         client.setPhoneNumber(this.phoneNumber);
+        client.setPassword(this.password);
+        client.setRole("USER");
+        client.setActive((byte) 1);
+
         return client;
     }
 

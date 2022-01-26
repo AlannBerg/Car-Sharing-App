@@ -1,9 +1,7 @@
 package com.example.CarRentalAplication.Controlers;
 
 import com.example.CarRentalAplication.Services.ClientService;
-import com.example.CarRentalAplication.Services.LocalizationService;
 import com.example.CarRentalAplication.contract.ClientDTO;
-import com.example.CarRentalAplication.models.Client;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -12,7 +10,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -35,6 +32,7 @@ class ClientControlerTest {
     private ClientService clientService;
 
     private ClientDTO clientDTO =new ClientDTO(
+            "1",
             "1",
             "1",
             "1",

@@ -1,11 +1,9 @@
 package com.example.CarRentalAplication.Controlers;
 
-import com.example.CarRentalAplication.Security.MyUserDetailService;
 import com.example.CarRentalAplication.Services.ClientService;
-import com.example.CarRentalAplication.Services.TEMPSERVICE;
 import com.example.CarRentalAplication.contract.ClientDTO;
 import com.example.CarRentalAplication.contract.ClientsecurityDTO;
-import com.example.CarRentalAplication.models.Clientsecurity;
+import com.example.CarRentalAplication.contract.UnregisteredClientDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +16,8 @@ import org.springframework.web.bind.annotation.*;
 public class ClientControler {
     private final ClientService clientService;
 
-    @Autowired
-    private final TEMPSERVICE tempservice;
-
-    public ClientControler(ClientService clientService, TEMPSERVICE tempservice) {
+    public ClientControler(ClientService clientService) {
         this.clientService = clientService;
-        this.tempservice = tempservice;
     }
 
     @GetMapping ("/get")
@@ -32,19 +26,21 @@ public class ClientControler {
         return new ResponseEntity<>(clientService.getByID(id), HttpStatus.OK);
     }
 
-    @PostMapping( "/add")
-    public ResponseEntity<String> addClient(@RequestBody ClientDTO clientDTO){
 
-        clientService.saveClient(clientDTO);
-
-        return new ResponseEntity(HttpStatus.OK);
-
-    }
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerClient(@RequestBody ClientsecurityDTO clientsecurity){
+    public ResponseEntity<String> registerClient(@RequestBody UnregisteredClientDTO unregisteredClientDTO){
 
-        tempservice.registerNewClient(clientsecurity);
+        ClientDTO clientDTO = new ClientDTO(
+                unregisteredClientDTO.getName(),
+                unregisteredClientDTO.getLastName(),
+                unregisteredClientDTO.getBirthday(),
+                unregisteredClientDTO.getEmail(),
+                unregisteredClientDTO.getPhoneNumber(),
+                unregisteredClientDTO.getPassword()
+        );
+
+        clientService.registerNewClient(clientDTO);
         return new ResponseEntity(HttpStatus.OK);
     }
 

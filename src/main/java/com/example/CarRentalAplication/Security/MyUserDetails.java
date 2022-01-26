@@ -1,12 +1,9 @@
 package com.example.CarRentalAplication.Security;
 
-import com.example.CarRentalAplication.models.Clientsecurity;
-import org.springframework.context.annotation.Bean;
+import com.example.CarRentalAplication.models.Client;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -23,12 +20,11 @@ public class MyUserDetails implements UserDetails {
 
 
 
-
-    public MyUserDetails(Clientsecurity clientsecurity){
-        this.userName = clientsecurity.getUsername();
-        this.password = clientsecurity.getPassword();
-        this.active = getActive(clientsecurity);
-        this.authorityList = Arrays.stream(clientsecurity.getRole().split(","))
+    public MyUserDetails(Client client){
+        this.userName = client.getName();
+        this.password = client.getPassword();
+        this.active = getActive(client);
+        this.authorityList = Arrays.stream(client.getRole().split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }
@@ -37,8 +33,8 @@ public class MyUserDetails implements UserDetails {
 
     }
 
-    public  Boolean getActive(Clientsecurity clientsecurity){
-        if(clientsecurity.getActive() == 0){
+    public  Boolean getActive(Client client){
+        if(client.getActive() == 0){
             return false;
         }else {
             return true;

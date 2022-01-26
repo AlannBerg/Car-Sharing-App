@@ -51,7 +51,8 @@ class BookingServiceTest {
             "lastName",
             "2000-01-01",
             "mail",
-            "123456789"
+            "123456789",
+            "1"
     );
 
     private final CarDTO carDTO = new CarDTO(

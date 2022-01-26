@@ -1,18 +1,17 @@
 package com.example.CarRentalAplication.models;
 
-
-
-import lombok.AllArgsConstructor;
-
 import javax.persistence.*;
+import java.sql.Date;
 
-@AllArgsConstructor
 @Entity
 @Table(name = "client")
 public class Client {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
+
+    @Column(name = "email")
+    private String email;
 
     @Column(name = "name")
     private String name;
@@ -23,14 +22,40 @@ public class Client {
     @Column(name = "birthday")
     private java.sql.Date birthday;
 
-    @Column(name = "email")
-    private String email;
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "role")
+    private String role;
+
+    @Column(name = "active")
+    private Byte active;
 
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    public Client() {
+    public Client(String name, String lastName, String email, Date birthday, String  phoneNumber, String password, String role, Byte active) {
+        this.id = id;
+        this.name = name;
+        this.lastName = lastName;
+        this.email = email;
+        this.birthday = birthday;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+        this.role = role;
+        this.active = active;
+    }
 
+    public Client() {
+    }
+
+    public Client(Integer id, String name, String lastName, Date birthday, String email, String phoneNumber) {
+        this.id = id;
+        this.name = name;
+        this.lastName = lastName;
+        this.birthday = birthday;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
     }
 
     public Integer getId() {
@@ -39,6 +64,14 @@ public class Client {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getName() {
@@ -65,12 +98,28 @@ public class Client {
         this.birthday = birthday;
     }
 
-    public String getEmail() {
-        return this.email;
+    public String getPassword() {
+        return this.password;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRole() {
+        return this.role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public Byte getActive() {
+        return this.active;
+    }
+
+    public void setActive(Byte active) {
+        this.active = active;
     }
 
     public String getPhoneNumber() {

@@ -4,19 +4,12 @@ import com.example.CarRentalAplication.Exceptions.InvalidClientID;
 import com.example.CarRentalAplication.Repositories.ClientRepository;
 import com.example.CarRentalAplication.contract.ClientDTO;
 import com.example.CarRentalAplication.models.Client;
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import javax.xml.crypto.Data;
 
 import java.sql.Date;
 import java.util.List;
@@ -80,7 +73,8 @@ class ClientServiceTest {
                 "lastName",
                 "2000-01-01",
                 "mail",
-                "123456789"
+                "123456789",
+                "1"
         );
         // when
         clientService.saveClient(clientDTO);

@@ -42,7 +42,7 @@ public class ReturnCarService {
 
         bookingService.closeRentalandSave(booked);
 
-        return new BookedDTO(booked.getClientId(), booked.getCarId(),
+        return new BookedDTO(booked.getId(),booked.getClientId(), booked.getCarId(),
                              booked.getRentalStartingDate().toString(),booked.getRentalEndDate().toString(),
                              booked.getMilage(), booked.getCharge());
     }

@@ -50,17 +50,17 @@ public class BookingService {
                                 booked.getRentalEndDate().toString()))
                                 .toList();
 
-        // if we do not have any rentals scheduled that mean all dates are free, could skip below steps
-        if( ! bookingHistory.isEmpty()){
+        // if we do not have any rentals scheduled that mean all dates are free, and if term is ok we could skip below steps
+        if( !bookingHistory.isEmpty() || requestedTermIsNotCorrect(bookingRequest)) {
             // if first date is the same as second or first date is later than second
-            if(requestedTermIsNotCorrect(bookingRequest)){
+            if (requestedTermIsNotCorrect(bookingRequest)) {
                 throw new RequestedTermIsNotCorrect();
             }
             // if car is not available for some reason
-            if(carDTO.getAvailable() == 0){
+            if (carDTO.getAvailable() == 0) {
                 throw new CarNotAvailableException();
             } // rest of  validation
-            if(requestedRentDateISTaken(bookingHistory, bookingRequest)){
+            if (requestedRentDateISTaken(bookingHistory, bookingRequest)) {
                 throw new RentalDateForThisCarIsAlreadyTaken();
             }
         }
@@ -140,7 +140,7 @@ public class BookingService {
         }
 
         return bookingRepository.findAllActiveBookingsForThisClient(clientID).stream()
-                .map(booked -> new BookedDTO(booked.getClientId(), booked.getCarId(), booked.getRentalStartingDate().toString(),
+                .map(booked -> new BookedDTO(booked.getId(),booked.getClientId(), booked.getCarId(), booked.getRentalStartingDate().toString(),
                         booked.getRentalEndDate().toString(), booked.getMilage(), booked.getCharge())).collect(Collectors.toList());
     }
 }

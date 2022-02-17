@@ -10,6 +10,7 @@ import java.sql.Date;
 @Getter
 public class BookedDTO {
 
+    private Integer bookedID;
     private Integer clientId;
     private Integer carId;
     private String rentalStartingDate;
@@ -25,7 +26,8 @@ public class BookedDTO {
         this.rentalEndDate = rentalEndDate;
     }
 
-    public BookedDTO(Integer clientId, Integer carId, String rentalStartingDate, String rentalEndDate, Integer milage, Float charge) {
+    public BookedDTO(Integer bookedID,Integer clientId, Integer carId, String rentalStartingDate, String rentalEndDate, Integer milage, Float charge) {
+        this.bookedID = bookedID;
         this.clientId = clientId;
         this.carId = carId;
         this.rentalStartingDate = rentalStartingDate;

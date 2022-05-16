@@ -1,4 +1,4 @@
-# CarRentalAplication
+# Car-Sharing-App
 
 
 Backend do strony internetowej obsługującej wypożyczalnie samochodową, składa się z 9 endpointów podzielonych dostępem na 3 grupy.

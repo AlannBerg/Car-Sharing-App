@@ -8,6 +8,8 @@ import com.example.CarRentalAplication.contract.BookedDTO.BookedDTO;
 import com.example.CarRentalAplication.contract.BookedDTO.BookedDTOWithNoID;
 import com.example.CarRentalAplication.contract.BookedDTO.ClosedBookingDTO;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -27,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc(addFilters = false)
 class BookingControlerTest {
 
-    @MockBean
+    @Autowired
     private MockMvc mvc;
 
     @MockBean
@@ -39,14 +41,14 @@ class BookingControlerTest {
     @MockBean
     private ReturnCarService returnCarService;
 
-    private final BookedDTOWithNoID bookedDTO = new BookedDTOWithNoID(
+    private  BookedDTOWithNoID bookedDTO = new BookedDTOWithNoID(
 
             1,
             1,
             "today",
             "tomorow");
 
-    private final ClosedBookingDTO closedBookingDTO = new ClosedBookingDTO(
+    private  ClosedBookingDTO closedBookingDTO = new ClosedBookingDTO(
             1,
             1,
             5,
@@ -71,7 +73,7 @@ class BookingControlerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
-        assertEquals("[{\"clientId\":1,\"carId\":1,\"rentalStartingDate\":\"today\",\"rentalEndDate\":\"tomorow\",\"milage\":null,\"charge\":null}]",
+        assertEquals("[{\"bookedID\":null,\"clientId\":null,\"carId\":null,\"rentalStartingDate\":null,\"rentalEndDate\":null}]",
                 result);
 
     }
@@ -94,7 +96,7 @@ class BookingControlerTest {
                 .andReturn().getResponse().getContentAsString();
 
 
-        assertEquals("{\"clientId\":1,\"carId\":1,\"rentalStartingDate\":\"today\",\"rentalEndDate\":\"tomorow\",\"milage\":null,\"charge\":null}"
+        assertEquals("{\"clientId\":1,\"carId\":1,\"rentalStartingDate\":\"today\",\"rentalEndDate\":\"tomorow\"}"
                 , result );
     }
 
@@ -114,7 +116,7 @@ class BookingControlerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
-        assertEquals("{\"clientId\":1,\"carId\":1,\"rentalStartingDate\":\"today\",\"rentalEndDate\":\"tomorow\",\"milage\":null,\"charge\":null}",
+        assertEquals("{\"bookedID\":1,\"clientId\":1,\"carId\":5,\"rentalStartingDate\":\"today\",\"rentalEndDate\":\"tomorow\",\"milage\":100,\"charge\":100.0}",
                 result);
     }
 }

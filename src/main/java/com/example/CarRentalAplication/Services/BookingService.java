@@ -21,10 +21,10 @@ import java.util.List;
 
 @Service
 public class BookingService {
-    private final CarService carService;
-    private final ClientService clientService;
-    private final BookingRepository bookingRepository;
-    private final CarSharingAppMapperImpl carSharingAppMapper = new CarSharingAppMapperImpl();
+    private  CarService carService;
+    private  ClientService clientService;
+    private  BookingRepository bookingRepository;
+    private  CarSharingAppMapperImpl carSharingAppMapper = new CarSharingAppMapperImpl();
 
     @Autowired
     public BookingService(CarService carService, ClientService clientService, BookingRepository bookingRepository) {

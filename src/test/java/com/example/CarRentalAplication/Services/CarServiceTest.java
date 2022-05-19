@@ -67,7 +67,6 @@ class CarServiceTest {
         carService.getCars(query);
         //then
         verify(carRepository).getCarsUsingQuery(query);
-        verify(localizationService).getCityName(car.getCurrentLocation());
         assertEquals(1,carRepository.getCarsUsingQuery(query).size());
 
     }
@@ -79,11 +78,11 @@ class CarServiceTest {
         //when
         when(carRepository.findByID(id)).thenReturn(car);
 
-        carService.findByID(id);
+        CarDTO car = carService.findByID(id);
 
         //then
         verify(carRepository).findByID(id);
-        verify(localizationService).getCityName(car.getCurrentLocation());
+        assertEquals(car.getMake(),"make");
     }
     @Test
     void findCarByInvalidID() {

@@ -1,13 +1,11 @@
 package com.example.CarRentalAplication.Services;
 
-
 import com.example.CarRentalAplication.contract.BookedDTO.ClosedBookingDTO;
 import com.example.CarRentalAplication.contract.Mapper.CarSharingAppMapperImpl;
 import com.example.CarRentalAplication.models.Booked;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 

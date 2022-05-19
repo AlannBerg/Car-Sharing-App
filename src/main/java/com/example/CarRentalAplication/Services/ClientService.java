@@ -11,8 +11,6 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.sql.Date;
 import java.util.List;
 
 @Service
@@ -20,7 +18,7 @@ public class ClientService {
     private ClientRepository clientRepository;
     private CarSharingAppMapper carSharingAppMapper = new CarSharingAppMapperImpl();
 
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private  BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Autowired
     public ClientService(ClientRepository clientRepository) {

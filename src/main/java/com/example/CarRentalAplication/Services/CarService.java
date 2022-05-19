@@ -6,13 +6,11 @@ import com.example.CarRentalAplication.Repositories.CarRepository;
 import com.example.CarRentalAplication.contract.Mapper.CarSharingAppMapper;
 import com.example.CarRentalAplication.contract.Mapper.CarSharingAppMapperImpl;
 import com.example.CarRentalAplication.models.Car;
-import com.example.CarRentalAplication.models.Localization;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CarService {

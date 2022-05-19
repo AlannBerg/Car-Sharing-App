@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
 @DataJpaTest
 class LocalizationRepositoryTest {
 
-    @Autowired
+    @Mock
     TestEntityManager testEntityManager;
 
     @Autowired

@@ -3,6 +3,8 @@ package com.example.CarRentalAplication.Services;
 import com.example.CarRentalAplication.Exceptions.InvalidCarID;
 import com.example.CarRentalAplication.contract.CarDTO;
 import com.example.CarRentalAplication.Repositories.CarRepository;
+import com.example.CarRentalAplication.contract.Mapper.CarSharingAppMapper;
+import com.example.CarRentalAplication.contract.Mapper.CarSharingAppMapperImpl;
 import com.example.CarRentalAplication.models.Car;
 import com.example.CarRentalAplication.models.Localization;
 import lombok.SneakyThrows;
@@ -17,20 +19,22 @@ public class CarService {
 
     private CarRepository carRepository;
     private LocalizationService localizationService;
+    private CarSharingAppMapperImpl carSharingAppMapper;
 
 
     @Autowired
     public CarService(CarRepository carRepository, LocalizationService localizationService) {
         this.carRepository = carRepository;
         this.localizationService = localizationService;
+        this.carSharingAppMapper = new CarSharingAppMapperImpl();
     }
 
     public List<CarDTO> getCars(String query){
-        return carRepository.getCarsUsingQuery(query).stream().
-                map(car -> new CarDTO(car.getMake(), car.getModel(), car.getColor(),
-                        car.getYear(), car.getHorsepower(), car.getRentfee(), car.getAvailable(),
-                        localizationService.getCityName(car.getCurrentLocation())))
-                .collect(Collectors.toList());
+
+        List<Car> carFromDB =  carRepository.getCarsUsingQuery(query);
+
+        return carSharingAppMapper.carTOCarDTOlist(carFromDB);
+
     }
 
     @SneakyThrows
@@ -39,8 +43,8 @@ public class CarService {
         if(car == null){
             throw new InvalidCarID();
         }
-        return new CarDTO(car.getMake(), car.getModel(), car.getColor(), car.getYear(), car.getHorsepower(),
-                            car.getRentfee(), car.getAvailable(), localizationService.getCityName(car.getCurrentLocation()));
+
+        return carSharingAppMapper.carTOCarDTO(car);
     }
 
     public Integer findRentalFeeByID(Integer carId) {

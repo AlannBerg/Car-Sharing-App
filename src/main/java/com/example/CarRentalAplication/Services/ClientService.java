@@ -4,6 +4,8 @@ import com.example.CarRentalAplication.Exceptions.EmailAlreadyExist;
 import com.example.CarRentalAplication.Exceptions.InvalidClientID;
 import com.example.CarRentalAplication.Repositories.ClientRepository;
 import com.example.CarRentalAplication.contract.ClientDTO;
+import com.example.CarRentalAplication.contract.Mapper.CarSharingAppMapper;
+import com.example.CarRentalAplication.contract.Mapper.CarSharingAppMapperImpl;
 import com.example.CarRentalAplication.models.Client;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import java.util.List;
 @Service
 public class ClientService {
     private ClientRepository clientRepository;
+    private CarSharingAppMapper carSharingAppMapper = new CarSharingAppMapperImpl();
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -34,13 +37,10 @@ public class ClientService {
             client = clientRepository.findByID(id).get(0);
         }
 
-        return new ClientDTO(
-                client.getName(),
-                client.getLastName(),
-                client.getBirthday().toString(),
-                client.getEmail(),
-                client.getPhoneNumber(),
-                "*******");
+
+        return carSharingAppMapper.clientTOClientDTOtoReturnForUser(client);
+
+
     }
 
     public void saveClient(ClientDTO clientDTO) {
@@ -54,15 +54,8 @@ public class ClientService {
             throw new EmailAlreadyExist();
         }
 
-        Client client = new Client(
-                clientDTO.getName(),
-                clientDTO.getLastName(),
-                clientDTO.getEmail(),
-                Date.valueOf(clientDTO.getBirthday()),
-                clientDTO.getPhoneNumber(),
-                passwordEncoder.encode(clientDTO.getPassword()),
-                "USER",
-                (byte) 1);
+
+        Client client = carSharingAppMapper.clientDTOtoClient(clientDTO);
 
         clientRepository.saveClient(client);
     }

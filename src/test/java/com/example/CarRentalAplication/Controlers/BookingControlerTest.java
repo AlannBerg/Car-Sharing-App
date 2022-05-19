@@ -3,21 +3,19 @@ package com.example.CarRentalAplication.Controlers;
 import com.example.CarRentalAplication.Security.MyUserDetailService;
 import com.example.CarRentalAplication.Services.BookingService;
 import com.example.CarRentalAplication.Services.ReturnCarService;
-import com.example.CarRentalAplication.contract.BookedDTO;
-import com.example.CarRentalAplication.models.Booked;
+import com.example.CarRentalAplication.contract.BookedDTO.BookedDTO;
+
+import com.example.CarRentalAplication.contract.BookedDTO.BookedDTOWithNoID;
+import com.example.CarRentalAplication.contract.BookedDTO.ClosedBookingDTO;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc(addFilters = false)
 class BookingControlerTest {
 
-    @Autowired
+    @MockBean
     private MockMvc mvc;
 
     @MockBean
@@ -41,18 +39,28 @@ class BookingControlerTest {
     @MockBean
     private ReturnCarService returnCarService;
 
-    private BookedDTO bookedDTO = new BookedDTO(
+    private final BookedDTOWithNoID bookedDTO = new BookedDTOWithNoID(
+
             1,
             1,
             "today",
             "tomorow");
+
+    private final ClosedBookingDTO closedBookingDTO = new ClosedBookingDTO(
+            1,
+            1,
+            5,
+            "today",
+            "tomorow",
+            100,
+            100f);
 
 
     @Test
     void showAllActiveBookingsForClientshouldReturn1booking() throws Exception {
         String uri = "/booking/getbookings";
 
-        List<BookedDTO> bookedList = List.of(bookedDTO);
+        List<BookedDTO> bookedList = List.of(new BookedDTO());
 
         when(bookingService.findActiveBookingsForClientByClientID(1)).thenReturn(bookedList);
 
@@ -94,7 +102,7 @@ class BookingControlerTest {
     void returnACartest() throws Exception {
         String uri = "/booking/return";
 
-        when(returnCarService.returnCar(1,1,1)).thenReturn(bookedDTO);
+        when(returnCarService.returnCar(1,1,1)).thenReturn(closedBookingDTO);
 
         RequestBuilder request = MockMvcRequestBuilders.post(uri)
                 .param("bookedID","1")

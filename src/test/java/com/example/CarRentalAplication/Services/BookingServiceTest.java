@@ -4,7 +4,8 @@ import com.example.CarRentalAplication.Exceptions.CarNotAvailableException;
 import com.example.CarRentalAplication.Exceptions.InvalidBookingID;
 import com.example.CarRentalAplication.Exceptions.InvalidClientID;
 import com.example.CarRentalAplication.Repositories.BookingRepository;
-import com.example.CarRentalAplication.contract.BookedDTO;
+import com.example.CarRentalAplication.contract.BookedDTO.BookedDTO;
+import com.example.CarRentalAplication.contract.BookedDTO.BookedDTOWithNoID;
 import com.example.CarRentalAplication.contract.CarDTO;
 import com.example.CarRentalAplication.contract.ClientDTO;
 import com.example.CarRentalAplication.models.Booked;
@@ -33,6 +34,14 @@ class BookingServiceTest {
     private BookingService bookingService;
 
     private  BookedDTO bookedDTO = new BookedDTO(
+            1,
+            1,
+            1,
+            "2000-01-01",
+            "2000-02-02"
+    );
+
+    private  BookedDTOWithNoID bookedDTOwithnoid = new BookedDTOWithNoID(
             1,
             1,
             "2000-01-01",
@@ -78,7 +87,7 @@ class BookingServiceTest {
         when(carService.findByID(bookedDTO.getCarId())).thenReturn(carDTO);
         when(clientService.getByID(bookedDTO.getClientId())).thenReturn(clientDTO);
         when(bookingRepository.findAllActiveBookingsWithThisCar(carID)).thenReturn(List.of());
-        bookingService.bookACar(bookedDTO);
+        bookingService.bookACar(bookedDTOwithnoid);
 
         //then
 
@@ -103,7 +112,7 @@ class BookingServiceTest {
         when(clientService.getByID(bookedDTO.getClientId())).thenReturn(clientDTO);
         when(bookingRepository.findAllActiveBookingsWithThisCar(carID)).thenReturn(List.of(booked));
 
-        assertThrows(CarNotAvailableException.class ,()-> bookingService.bookACar(bookedDTO));
+        assertThrows(CarNotAvailableException.class ,()-> bookingService.bookACar(bookedDTOwithnoid));
 
     }
 
@@ -112,7 +121,7 @@ class BookingServiceTest {
         List<BookedDTO> bookingHistory = List.of(bookedDTO);
 
         //same terms here so should return true
-        assertTrue(bookingService.requestedRentDateISTaken(bookingHistory,bookedDTO));
+        assertTrue(bookingService.requestedRentDateISTaken(bookingHistory,bookedDTOwithnoid));
     }
 
     @Test
@@ -120,16 +129,17 @@ class BookingServiceTest {
         List<BookedDTO> bookingHistory = List.of(new BookedDTO(
                 1,
                 1,
+                1,
                 "2000-02-10",
                 "2000-02-15"
         ));
 
-        assertFalse(bookingService.requestedRentDateISTaken(bookingHistory,bookedDTO));
+        assertFalse(bookingService.requestedRentDateISTaken(bookingHistory,bookedDTOwithnoid));
     }
 
     @Test
     void requestedTermIsNotCorrectTwoDatesAreTheSameShouldReturnTrue(){
-        BookedDTO badRequestToDatesTheSame = new BookedDTO(
+        BookedDTOWithNoID badRequestToDatesTheSame = new BookedDTOWithNoID(
                 1,
                 1,
                 "2000-01-01",
@@ -140,7 +150,8 @@ class BookingServiceTest {
     }
     @Test
     void requestedTermIsNotCorrectFirstDateIsAfterSecondShouldReturnTrue(){
-        BookedDTO badRequestFirstDateIsLater = new BookedDTO(
+        BookedDTOWithNoID badRequestFirstDateIsLater = new BookedDTOWithNoID(
+
                 1,
                 1,
                 "2000-01-03",
@@ -151,7 +162,7 @@ class BookingServiceTest {
     @Test
     void requestedTermIsNotCorrectGoodDateShouldReturnFalse(){
 
-        assertFalse(bookingService.requestedTermIsNotCorrect(bookedDTO));
+        assertFalse(bookingService.requestedTermIsNotCorrect(bookedDTOwithnoid));
     }
     @Test
     void findActiveBookingByIDshouldReturnBooking() {

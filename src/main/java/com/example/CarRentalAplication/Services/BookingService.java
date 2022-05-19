@@ -3,9 +3,11 @@ package com.example.CarRentalAplication.Services;
 import com.example.CarRentalAplication.DateValidator;
 import com.example.CarRentalAplication.Exceptions.*;
 import com.example.CarRentalAplication.Repositories.BookingRepository;
-import com.example.CarRentalAplication.contract.BookedDTO;
+import com.example.CarRentalAplication.contract.BookedDTO.BookedDTO;
+import com.example.CarRentalAplication.contract.BookedDTO.BookedDTOWithNoID;
 import com.example.CarRentalAplication.contract.CarDTO;
 import com.example.CarRentalAplication.contract.ClientDTO;
+import com.example.CarRentalAplication.contract.Mapper.CarSharingAppMapperImpl;
 import com.example.CarRentalAplication.models.Booked;
 import com.example.CarRentalAplication.models.Car;
 import lombok.SneakyThrows;
@@ -16,13 +18,13 @@ import org.springframework.stereotype.Service;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class BookingService {
-    private CarService carService;
-    private ClientService clientService;
-    private BookingRepository bookingRepository;
+    private final CarService carService;
+    private final ClientService clientService;
+    private final BookingRepository bookingRepository;
+    private final CarSharingAppMapperImpl carSharingAppMapper = new CarSharingAppMapperImpl();
 
     @Autowired
     public BookingService(CarService carService, ClientService clientService, BookingRepository bookingRepository) {
@@ -32,7 +34,7 @@ public class BookingService {
     }
 
     @SneakyThrows
-    public BookedDTO bookACar(BookedDTO bookingRequest) {
+    public BookedDTOWithNoID bookACar(BookedDTOWithNoID bookingRequest) {
 
         CarDTO carDTO = carService.findByID(bookingRequest.getCarId());
 
@@ -41,14 +43,11 @@ public class BookingService {
 
 
         // searching for active rentals with  specyfic car
-        List<BookedDTO> bookingHistory = bookingRepository.findAllActiveBookingsWithThisCar(bookingRequest.getCarId())
-                .stream().map(
-                        booked -> new BookedDTO(
-                                booked.getClientId(),
-                                booked.getCarId(),
-                                booked.getRentalStartingDate().toString(),
-                                booked.getRentalEndDate().toString()))
-                                .toList();
+
+        List<Booked> bookedHistoryButEntityList = bookingRepository.findAllActiveBookingsWithThisCar(bookingRequest.getCarId());
+
+        List<BookedDTO> bookingHistory = carSharingAppMapper.bookedTOBookedDTOList(bookedHistoryButEntityList);
+
 
         // if we do not have any rentals scheduled that mean all dates are free, and if term is ok we could skip below steps
         if( !bookingHistory.isEmpty() || requestedTermIsNotCorrect(bookingRequest)) {
@@ -65,11 +64,11 @@ public class BookingService {
             }
         }
 
-        bookingRepository.save(bookingRequest.dtoToEntity());
+        bookingRepository.save(carSharingAppMapper.bookedDTOWithNoIDToBooked(bookingRequest));
         return bookingRequest;
     }
 
-    protected boolean requestedRentDateISTaken(List<BookedDTO> bookingHistory, BookedDTO bookingRequest) {
+    protected boolean requestedRentDateISTaken(List<BookedDTO> bookingHistory, BookedDTOWithNoID bookingRequest) {
 
         HashMap<Date,Date> beginANDendOFRent = new HashMap<>();
 
@@ -93,7 +92,7 @@ public class BookingService {
         return terminIsTaken;
         }
 
-    protected boolean requestedTermIsNotCorrect(BookedDTO bookingRequest) {
+    protected boolean requestedTermIsNotCorrect(BookedDTOWithNoID bookingRequest) {
         Boolean requestTermIsNotCorrect = false;
 
         Date firstDate = Date.valueOf(bookingRequest.getRentalStartingDate());
@@ -139,9 +138,9 @@ public class BookingService {
             throw new InvalidClientID();
         }
 
-        return bookingRepository.findAllActiveBookingsForThisClient(clientID).stream()
-                .map(booked -> new BookedDTO(booked.getId(),booked.getClientId(), booked.getCarId(), booked.getRentalStartingDate().toString(),
-                        booked.getRentalEndDate().toString(), booked.getMilage(), booked.getCharge())).collect(Collectors.toList());
+        List<Booked> bookedList = bookingRepository.findAllActiveBookingsForThisClient(clientID);
+
+        return carSharingAppMapper.bookedTOBookedDTOList(bookedList);
     }
 }
 

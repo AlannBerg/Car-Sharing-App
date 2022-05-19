@@ -3,6 +3,7 @@ package com.example.CarRentalAplication.Services;
 import com.example.CarRentalAplication.Exceptions.InvalidCarID;
 import com.example.CarRentalAplication.Repositories.CarRepository;
 import com.example.CarRentalAplication.contract.CarDTO;
+import com.example.CarRentalAplication.contract.Mapper.CarSharingAppMapperImpl;
 import com.example.CarRentalAplication.models.Car;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,7 @@ class CarServiceTest {
     private CarRepository carRepository;
     @Mock
     private LocalizationService localizationService;
+
 
     private CarService carService;
 

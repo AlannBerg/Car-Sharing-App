@@ -3,8 +3,8 @@ package com.example.CarRentalAplication.Controlers;
 import com.example.CarRentalAplication.Services.ClientService;
 import com.example.CarRentalAplication.contract.ClientDTO;
 import com.example.CarRentalAplication.contract.ClientsecurityDTO;
+import com.example.CarRentalAplication.contract.Mapper.CarSharingAppMapperImpl;
 import com.example.CarRentalAplication.contract.UnregisteredClientDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/client")
 public class ClientControler {
     private final ClientService clientService;
+    private final CarSharingAppMapperImpl carSharingMapper = new CarSharingAppMapperImpl();
 
     public ClientControler(ClientService clientService) {
         this.clientService = clientService;
@@ -31,14 +32,8 @@ public class ClientControler {
     @PostMapping("/register")
     public ResponseEntity<String> registerClient(@RequestBody UnregisteredClientDTO unregisteredClientDTO){
 
-        ClientDTO clientDTO = new ClientDTO(
-                unregisteredClientDTO.getName(),
-                unregisteredClientDTO.getLastName(),
-                unregisteredClientDTO.getBirthday(),
-                unregisteredClientDTO.getEmail(),
-                unregisteredClientDTO.getPhoneNumber(),
-                unregisteredClientDTO.getPassword()
-        );
+
+        ClientDTO clientDTO = carSharingMapper.unregisteredClientToClientDTO(unregisteredClientDTO);
 
         clientService.registerNewClient(clientDTO);
         return new ResponseEntity(HttpStatus.OK);

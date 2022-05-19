@@ -1,6 +1,8 @@
 package com.example.CarRentalAplication.Services;
 
-import com.example.CarRentalAplication.contract.BookedDTO;
+
+import com.example.CarRentalAplication.contract.BookedDTO.ClosedBookingDTO;
+import com.example.CarRentalAplication.contract.Mapper.CarSharingAppMapperImpl;
 import com.example.CarRentalAplication.models.Booked;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ public class ReturnCarService {
     private BookingService bookingService;
     private CarService carService;
     private LocalizationService localizationService;
+    private CarSharingAppMapperImpl carSharingAppMapper = new CarSharingAppMapperImpl();
 
     @Autowired
     public ReturnCarService(BookingService bookingService, CarService carService, LocalizationService localizationService) {
@@ -24,7 +27,7 @@ public class ReturnCarService {
     }
 
     @SneakyThrows
-    public BookedDTO returnCar(Integer bookedID, Integer milage, Integer returningCityID) {
+    public ClosedBookingDTO returnCar(Integer bookedID, Integer milage, Integer returningCityID) {
 
         Booked booked = bookingService.findActiveBookingByID(bookedID);
 
@@ -42,9 +45,8 @@ public class ReturnCarService {
 
         bookingService.closeRentalandSave(booked);
 
-        return new BookedDTO(booked.getId(),booked.getClientId(), booked.getCarId(),
-                             booked.getRentalStartingDate().toString(),booked.getRentalEndDate().toString(),
-                             booked.getMilage(), booked.getCharge());
+        return carSharingAppMapper.bookedToClosedBookingDTO(booked);
+
     }
 
     private Float evaluateCharge(Booked booked, Integer milage, Integer rentalLenght) {

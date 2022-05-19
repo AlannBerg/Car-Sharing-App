@@ -18,16 +18,6 @@ public class ClientDTO {
     private String role;
     private Byte active;
 
-    public ClientDTO(String email, String name, String lastName, String birthday, String password, String role, Byte active, String phoneNumber) {
-        this.email = email;
-        this.name = name;
-        this.lastName = lastName;
-        this.birthday = birthday;
-        this.password = password;
-        this.role = role;
-        this.active = active;
-        this.phoneNumber = phoneNumber;
-    }
 
     public ClientDTO(String name, String lastName, String birthday, String email, String phoneNumber, String  password){
         this.name = name;

@@ -3,8 +3,8 @@ package com.example.CarRentalAplication.Services;
 import com.example.CarRentalAplication.DateValidator;
 import com.example.CarRentalAplication.Exceptions.*;
 import com.example.CarRentalAplication.Repositories.BookingRepository;
-import com.example.CarRentalAplication.contract.BookedDTO.BookedDTO;
-import com.example.CarRentalAplication.contract.BookedDTO.BookedDTOWithNoID;
+import com.example.CarRentalAplication.contract.Booked.BookedDTOWithID;
+import com.example.CarRentalAplication.contract.Booked.BookedDTO;
 import com.example.CarRentalAplication.contract.CarDTO;
 import com.example.CarRentalAplication.contract.ClientDTO;
 import com.example.CarRentalAplication.contract.Mapper.CarSharingAppMapperImpl;
@@ -34,7 +34,7 @@ public class BookingService {
     }
 
     @SneakyThrows
-    public BookedDTOWithNoID bookACar(BookedDTOWithNoID bookingRequest) {
+    public BookedDTO bookACar(BookedDTO bookingRequest) {
 
         CarDTO carDTO = carService.findByID(bookingRequest.getCarId());
 
@@ -46,7 +46,7 @@ public class BookingService {
 
         List<Booked> bookedHistoryButEntityList = bookingRepository.findAllActiveBookingsWithThisCar(bookingRequest.getCarId());
 
-        List<BookedDTO> bookingHistory = carSharingAppMapper.bookedTOBookedDTOList(bookedHistoryButEntityList);
+        List<BookedDTOWithID> bookingHistory = carSharingAppMapper.bookedTOBookedDTOList(bookedHistoryButEntityList);
 
 
         // if we do not have any rentals scheduled that mean all dates are free, and if term is ok we could skip below steps
@@ -68,15 +68,15 @@ public class BookingService {
         return bookingRequest;
     }
 
-    protected boolean requestedRentDateISTaken(List<BookedDTO> bookingHistory, BookedDTOWithNoID bookingRequest) {
+    protected boolean requestedRentDateISTaken(List<BookedDTOWithID> bookingHistory, BookedDTO bookingRequest) {
 
         HashMap<Date,Date> beginANDendOFRent = new HashMap<>();
 
         //creating a hashmap with <startDate , endDate> of scheduled rentals
-        for(BookedDTO bookedDTO : bookingHistory) {
+        for(BookedDTOWithID bookedDTOWithID : bookingHistory) {
 
-            Date starting = Date.valueOf(bookedDTO.getRentalStartingDate());
-            Date ending = Date.valueOf(bookedDTO.getRentalEndDate());
+            Date starting = Date.valueOf(bookedDTOWithID.getRentalStartingDate());
+            Date ending = Date.valueOf(bookedDTOWithID.getRentalEndDate());
 
             beginANDendOFRent.put(starting, ending);
         }
@@ -92,7 +92,7 @@ public class BookingService {
         return terminIsTaken;
         }
 
-    protected boolean requestedTermIsNotCorrect(BookedDTOWithNoID bookingRequest) {
+    protected boolean requestedTermIsNotCorrect(BookedDTO bookingRequest) {
         Boolean requestTermIsNotCorrect = false;
 
         Date firstDate = Date.valueOf(bookingRequest.getRentalStartingDate());
@@ -131,7 +131,7 @@ public class BookingService {
     }
 
     @SneakyThrows
-    public List<BookedDTO> findActiveBookingsForClientByClientID(Integer clientID) {
+    public List<BookedDTOWithID> findActiveBookingsForClientByClientID(Integer clientID) {
 
         ClientDTO clientDTO = clientService.getByID(clientID);
         if(clientDTO == null){

@@ -2,10 +2,10 @@ package com.example.CarRentalAplication.Controlers;
 
 import com.example.CarRentalAplication.Services.BookingService;
 import com.example.CarRentalAplication.Services.ReturnCarService;
-import com.example.CarRentalAplication.contract.BookedDTO.BookedDTO;
+import com.example.CarRentalAplication.contract.Booked.BookedDTOWithID;
 
-import com.example.CarRentalAplication.contract.BookedDTO.BookedDTOWithNoID;
-import com.example.CarRentalAplication.contract.BookedDTO.ClosedBookingDTO;
+import com.example.CarRentalAplication.contract.Booked.BookedDTO;
+import com.example.CarRentalAplication.contract.Booked.ClosedBookingDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,19 +26,19 @@ public class BookingControler {
 
 
     @GetMapping("/getbookings")
-    public ResponseEntity<List<BookedDTO>> showAllActiveBookingsForClient(@RequestParam Integer clientID){
+    public ResponseEntity<List<BookedDTOWithID>> showAllActiveBookingsForClient(@RequestParam Integer clientID){
         return new ResponseEntity<>(bookingService.findActiveBookingsForClientByClientID(clientID),HttpStatus.OK);
     }
 
 
     @PostMapping("/bookCar")
-    public ResponseEntity<BookedDTOWithNoID> bookACar(@RequestParam Integer clientId,
+    public ResponseEntity<BookedDTO> bookACar(@RequestParam Integer clientId,
                                               @RequestParam Integer carId,
                                               @RequestParam String rentalStartingDate,
                                               @RequestParam String rentalEndDate
                                               ){
 
-        BookedDTOWithNoID bookingRequest = new BookedDTOWithNoID(clientId,carId,rentalStartingDate,rentalEndDate);
+        BookedDTO bookingRequest = new BookedDTO(clientId,carId,rentalStartingDate,rentalEndDate);
 
         return new ResponseEntity<>( bookingService.bookACar(bookingRequest),HttpStatus.OK);
     }

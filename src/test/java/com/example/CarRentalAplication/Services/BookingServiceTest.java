@@ -4,8 +4,8 @@ import com.example.CarRentalAplication.Exceptions.CarNotAvailableException;
 import com.example.CarRentalAplication.Exceptions.InvalidBookingID;
 import com.example.CarRentalAplication.Exceptions.InvalidClientID;
 import com.example.CarRentalAplication.Repositories.BookingRepository;
-import com.example.CarRentalAplication.contract.BookedDTO.BookedDTO;
-import com.example.CarRentalAplication.contract.BookedDTO.BookedDTOWithNoID;
+import com.example.CarRentalAplication.contract.Booked.BookedDTOWithID;
+import com.example.CarRentalAplication.contract.Booked.BookedDTO;
 import com.example.CarRentalAplication.contract.CarDTO;
 import com.example.CarRentalAplication.contract.ClientDTO;
 import com.example.CarRentalAplication.models.Booked;
@@ -33,7 +33,7 @@ class BookingServiceTest {
 
     private BookingService bookingService;
 
-    private  BookedDTO bookedDTO = new BookedDTO(
+    private BookedDTOWithID bookedDTOWithID = new BookedDTOWithID(
             1,
             1,
             1,
@@ -41,7 +41,7 @@ class BookingServiceTest {
             "2000-02-02"
     );
 
-    private  BookedDTOWithNoID bookedDTOwithnoid = new BookedDTOWithNoID(
+    private BookedDTO bookedDTOwithnoid = new BookedDTO(
             1,
             1,
             "2000-01-01",
@@ -84,14 +84,14 @@ class BookingServiceTest {
     void bookACarShouldBookACar() {
         Integer carID = 1;
         //when
-        when(carService.findByID(bookedDTO.getCarId())).thenReturn(carDTO);
-        when(clientService.getByID(bookedDTO.getClientId())).thenReturn(clientDTO);
+        when(carService.findByID(bookedDTOWithID.getCarId())).thenReturn(carDTO);
+        when(clientService.getByID(bookedDTOWithID.getClientId())).thenReturn(clientDTO);
         when(bookingRepository.findAllActiveBookingsWithThisCar(carID)).thenReturn(List.of());
         bookingService.bookACar(bookedDTOwithnoid);
 
         //then
 
-        assertEquals(0,bookingRepository.findAllActiveBookingsWithThisCar(bookedDTO.getCarId()).size());
+        assertEquals(0,bookingRepository.findAllActiveBookingsWithThisCar(bookedDTOWithID.getCarId()).size());
 
     }
 
@@ -108,8 +108,8 @@ class BookingServiceTest {
                  (byte)0,           // not available
                 "1"
         );
-        when(carService.findByID(bookedDTO.getCarId())).thenReturn(notAvailablecarDTo);
-        when(clientService.getByID(bookedDTO.getClientId())).thenReturn(clientDTO);
+        when(carService.findByID(bookedDTOWithID.getCarId())).thenReturn(notAvailablecarDTo);
+        when(clientService.getByID(bookedDTOWithID.getClientId())).thenReturn(clientDTO);
         when(bookingRepository.findAllActiveBookingsWithThisCar(carID)).thenReturn(List.of(booked));
 
         assertThrows(CarNotAvailableException.class ,()-> bookingService.bookACar(bookedDTOwithnoid));
@@ -118,7 +118,7 @@ class BookingServiceTest {
 
     @Test
     void requestRentDateIsTakenShouldReturnTrueSameTerms(){
-        List<BookedDTO> bookingHistory = List.of(bookedDTO);
+        List<BookedDTOWithID> bookingHistory = List.of(bookedDTOWithID);
 
         //same terms here so should return true
         assertTrue(bookingService.requestedRentDateISTaken(bookingHistory,bookedDTOwithnoid));
@@ -126,7 +126,7 @@ class BookingServiceTest {
 
     @Test
     void requestRentDateIsTakenshouldReturnFalseDifferentTerms(){
-        List<BookedDTO> bookingHistory = List.of(new BookedDTO(
+        List<BookedDTOWithID> bookingHistory = List.of(new BookedDTOWithID(
                 1,
                 1,
                 1,
@@ -139,7 +139,7 @@ class BookingServiceTest {
 
     @Test
     void requestedTermIsNotCorrectTwoDatesAreTheSameShouldReturnTrue(){
-        BookedDTOWithNoID badRequestToDatesTheSame = new BookedDTOWithNoID(
+        BookedDTO badRequestToDatesTheSame = new BookedDTO(
                 1,
                 1,
                 "2000-01-01",
@@ -150,7 +150,7 @@ class BookingServiceTest {
     }
     @Test
     void requestedTermIsNotCorrectFirstDateIsAfterSecondShouldReturnTrue(){
-        BookedDTOWithNoID badRequestFirstDateIsLater = new BookedDTOWithNoID(
+        BookedDTO badRequestFirstDateIsLater = new BookedDTO(
 
                 1,
                 1,

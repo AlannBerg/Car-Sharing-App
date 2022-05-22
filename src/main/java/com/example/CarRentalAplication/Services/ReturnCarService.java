@@ -1,6 +1,6 @@
 package com.example.CarRentalAplication.Services;
 
-import com.example.CarRentalAplication.contract.BookedDTO.ClosedBookingDTO;
+import com.example.CarRentalAplication.contract.Booked.ClosedBookingDTO;
 import com.example.CarRentalAplication.contract.Mapper.CarSharingAppMapperImpl;
 import com.example.CarRentalAplication.models.Booked;
 import lombok.SneakyThrows;

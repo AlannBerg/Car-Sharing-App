@@ -3,12 +3,11 @@ package com.example.CarRentalAplication.Controlers;
 import com.example.CarRentalAplication.Security.MyUserDetailService;
 import com.example.CarRentalAplication.Services.BookingService;
 import com.example.CarRentalAplication.Services.ReturnCarService;
-import com.example.CarRentalAplication.contract.BookedDTO.BookedDTO;
+import com.example.CarRentalAplication.contract.Booked.BookedDTOWithID;
 
-import com.example.CarRentalAplication.contract.BookedDTO.BookedDTOWithNoID;
-import com.example.CarRentalAplication.contract.BookedDTO.ClosedBookingDTO;
+import com.example.CarRentalAplication.contract.Booked.BookedDTO;
+import com.example.CarRentalAplication.contract.Booked.ClosedBookingDTO;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -41,7 +40,7 @@ class BookingControlerTest {
     @MockBean
     private ReturnCarService returnCarService;
 
-    private  BookedDTOWithNoID bookedDTO = new BookedDTOWithNoID(
+    private BookedDTO bookedDTO = new BookedDTO(
 
             1,
             1,
@@ -62,7 +61,7 @@ class BookingControlerTest {
     void showAllActiveBookingsForClientshouldReturn1booking() throws Exception {
         String uri = "/booking/getbookings";
 
-        List<BookedDTO> bookedList = List.of(new BookedDTO());
+        List<BookedDTOWithID> bookedList = List.of(new BookedDTOWithID());
 
         when(bookingService.findActiveBookingsForClientByClientID(1)).thenReturn(bookedList);
 

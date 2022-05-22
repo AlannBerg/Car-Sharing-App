@@ -1,9 +1,9 @@
 package com.example.CarRentalAplication.contract.Mapper;
 
 import com.example.CarRentalAplication.contract.*;
-import com.example.CarRentalAplication.contract.BookedDTO.BookedDTO;
-import com.example.CarRentalAplication.contract.BookedDTO.BookedDTOWithNoID;
-import com.example.CarRentalAplication.contract.BookedDTO.ClosedBookingDTO;
+import com.example.CarRentalAplication.contract.Booked.BookedDTOWithID;
+import com.example.CarRentalAplication.contract.Booked.BookedDTO;
+import com.example.CarRentalAplication.contract.Booked.ClosedBookingDTO;
 import com.example.CarRentalAplication.models.Booked;
 import com.example.CarRentalAplication.models.Car;
 import com.example.CarRentalAplication.models.Client;
@@ -53,9 +53,9 @@ public abstract class CarSharingAppMapper {
     public abstract ClosedBookingDTO bookedToClosedBookingDTO(Booked booked);
 
 
-    public List<BookedDTO> bookedTOBookedDTOList(List<Booked> bookedList){
+    public List<BookedDTOWithID> bookedTOBookedDTOList(List<Booked> bookedList){
         return bookedList.stream().map(
-                booked -> new BookedDTO(
+                booked -> new BookedDTOWithID(
                         booked.getId(),
                         booked.getClientId(),
                         booked.getCarId(),
@@ -66,7 +66,7 @@ public abstract class CarSharingAppMapper {
     }
 
 
-    public Booked bookedDTOWithNoIDToBooked(BookedDTOWithNoID bookedDTO){
+    public Booked bookedDTOWithNoIDToBooked(BookedDTO bookedDTO){
         Booked booked = new Booked();
         booked.setClientId(bookedDTO.getClientId());
         booked.setCarId(bookedDTO.getCarId());
@@ -76,12 +76,12 @@ public abstract class CarSharingAppMapper {
     }
 
 
-    public Booked bookedDTOToBooked(BookedDTO bookedDTO){
+    public Booked bookedDTOToBooked(BookedDTOWithID bookedDTOWithID){
         Booked booked = new Booked();
-        booked.setClientId(bookedDTO.getClientId());
-        booked.setCarId(bookedDTO.getCarId());
-        booked.setRentalStartingDate(Date.valueOf(bookedDTO.getRentalStartingDate()));
-        booked.setRentalEndDate(Date.valueOf(bookedDTO.getRentalEndDate()));
+        booked.setClientId(bookedDTOWithID.getClientId());
+        booked.setCarId(bookedDTOWithID.getCarId());
+        booked.setRentalStartingDate(Date.valueOf(bookedDTOWithID.getRentalStartingDate()));
+        booked.setRentalEndDate(Date.valueOf(bookedDTOWithID.getRentalEndDate()));
         return booked;
     }
 
